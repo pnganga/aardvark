@@ -1,5 +1,6 @@
 var http = require('http');
 var dispatch = require('dispatch');
+// include mongoose
 
 
 var server = http.createServer(
@@ -8,10 +9,22 @@ var server = http.createServer(
 					'/': function(request, response){
 
 
-						console.log('visiting %s', request.url);
-						response.end('This is the root.');
+						message = {
+							type: 'customer',
+							text: 'Hi, how are you?'
 
-					}
+
+						};
+
+						response.writeHead(200, {
+							'content-type': 'application/json',
+							'Access-control-Allow-Origin': 'http://10.9.45.72:9000'
+
+						});
+						response.end(JSON.stringify(message));
+
+					},
+
 
 
 				})
