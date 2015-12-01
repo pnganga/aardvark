@@ -13,7 +13,16 @@
   "author": "'pnganga'",
   "license": "'MIT'",
   "dependencies": {
+    "body-parser": "^1.14.1",
     "dispatch": "^1.0.0",
-    "mongoose": "^4.2.6"
+    "ee-first": "^1.1.1",
+    "express": "^4.13.3",
+    "media-typer": "^0.3.0",
+    "mime-types": "^2.1.7",
+    "mongoose": "^4.2.6",
+    "ms": "^0.7.1",
+    "querystring": "^0.2.0",
+    "statuses": "^1.2.1",
+    "unpipe": "^1.0.0"
   }
 }
