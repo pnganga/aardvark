@@ -60,13 +60,16 @@ app.post('/movies/new', function(req, res){
 		}
 
 	});
+});
 
-app.get('/movie/:id', function(req, res) {
-  movieId = req.params.id
+app.get('/movies/:id', function(req, res) {
+  movieId = req.params.id;
 
   // retrieve the movie from mongodb
-  Movie.findById(id, function (err, movie) {
+  Movie.findById(movieId, function (err, movie) {
   	if (err) return console.log(err);
+
+  	res.json(movie);
 
   });
 });		
