@@ -1,0 +1,116 @@
+#pitch{
+	background-image: url("../images/vector2.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-attachment: fixed;
+	height: 400px;
+	margin-top: 0px;
+	padding: 150px;
+	
+	
+
+	
+}
+
+#heading{
+
+	color: #9E9D24;
+}
+.container-fluid .jumbotron{
+	border-radius: 0px;
+
+
+}
+.mpesa{
+
+	height: 360px;
+}
+h2{
+	color: #1565C0;
+
+}
+.logo{
+	height: 50px;
+    padding-bottom: 20px;
+
+}
+body{
+	background-color: #E3F2FD;
+	/*background-image: url("../images/bck.jpg");*/
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+}
+.navbar{
+	position: fixed;
+	width: 2000px;
+  
+
+}
+.error{
+	color: #B71C1C;
+
+}
+#contacts{
+	height: 100px;
+	display: block;
+
+}
+#contacts img{
+	
+
+}
+#phonenumber{
+	
+
+
+};
+.row{
+	border-style: double;
+	border-color: #Ffffff;
+
+}
+#cover1{
+
+
+}
+#tab{
+	height: 300px;
+
+}
+h1{
+	font-family:  Serif,sans-serif;
+	outline-color: #5E35B1;
+}
+.pd{
+font-size: 50px;
+text-align: center;
+text-decoration: style;
+
+
+}
+#language{
+	font-size: 50px;
+
+}
+#myprof{
+	font-size: 50px;
+
+}
+#tabs-1{
+	
+
+}
+.footnote{
+	color: red;
+
+}
+#red{
+	color: red;
+
+}
+#form{
+	background-color: #E3E2FD;
+}
