@@ -1,7 +1,6 @@
-var http = require('http');
-var dispatch = require('dispatch');
+
 var mongoose = require('mongoose');
-var querystring = require('querystring');
+
 
 
 // express
@@ -62,67 +61,15 @@ app.post('/movies/new', function(req, res){
 
 	});
 
-	// res.end();
+app.get('/movie/:id', function(req, res) {
+  movieId = req.params.id
 
-});
+  // retrieve the movie from mongodb
+  Movie.findById(id, function (err, movie) {
+  	if (err) return console.log(err);
 
-// var server = http.createServer(
-// 	dispatch({
-// 				'/movies' : {
-// 					'GET /': function(request, response, next){
-
-// 								movies = [
-// 									{
-// 										title: "Final Destination",
-// 										director:"Albert Johns",
-// 										star: "Finch Walters"
-// 									},
-// 									{
-// 										title: "Captivity",
-// 										director:"Jordan Jones",
-// 										star: "David Walkerman"
-// 									},
-// 									{
-// 										title: "Nairobi half life",
-// 										director:"John Kidum",
-// 										star: "Shiks Kapyenga"
-// 									}		
-// 								]; 
-
-// 								response.end(JSON.stringify(movies));
-// 				},
-
-// 				'POST /': function(request, response){
-// 					// Get parameters from the form
-// 					 var formData;
-// 					request.on('data', function(chunk){
-// 						formData = querystring.parse(chunk.toString());
-// 					});
-
-// 					request.on('end', function(){
-// 						console.log(formData);
-// 						// create an instanse of a movie
-// 						var movie = new Movie(
-// 							{
-// 								title: formData.title,
-// 								director: formData.director,
-// 								star: formData.star
-// 							})
-// 						response.end();
-// 					});
-					
-					
-// 					// save the movie instance
-// 					// if successful respond with the saved movie
-
-
-// 				}
-
-									
-// 				}
-// 			})
-// );
-				
+  });
+});		
 			
 app.listen(8081, function(){
 	console.log('server running on http://127.0.0.1:8081');
