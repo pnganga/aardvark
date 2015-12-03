@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 // express
 var express = require('express');
+var cons = require('consolidate');
 var app = express();
 
 //include express middlewares
@@ -25,15 +26,17 @@ var movieSchema = mongoose.Schema({
         type: Number,
         default: 0,
         max: 10
-    }
+    },
+    details: String
 });
 
 // compile model
 
 var Movie = mongoose.model('Movie', movieSchema);
 //express settings
+app.engine('html', cons.liquid);
 app.set('views', './views');
-app.set('view engine', 'jade');
+app.set('view engine', 'html');
 
 //express middleware
 app.use(bodyParser.urlencoded({
@@ -46,12 +49,14 @@ app.get('/movies', function(req, res) {
         .exec(function(err, movies) {
 
 
-                if (err) return console.log(err);
+            if (err) return console.log(err);
 
 
-                res.render('index', {"movies": movies});
-                // res.json(movie);
-        
+            res.render('index', {
+                "movies": movies
+            });
+            // res.json(movie);
+
 
         });
 
@@ -114,7 +119,41 @@ app.delete('/movies/:id', function(req, res) {
 
     });
 });
+app.put('/movies/:id', function(req, res) {
+    movieId = req.params.id;
+    movieDetails = req.body.details;
 
+    // retrieve the movie from mongodb
+    Movie.findById(movieId, function(err, movie) {
+        if (err) return console.log(err);
+
+        movie.rating = movieDetails;
+        movie.save(function(err, movie) {
+            if (err) return console.log(err);
+            res.json(movie);
+        })
+    })
+});
+app.get('/movies', function(req, res) {
+    Movie.find()
+        .select('title director star')
+        .exec(function(err, movies) {
+
+
+            if (err) return console.log(err);
+
+
+            res.render('index', {
+                "movies": movies
+            });
+            // res.json(movie);
+
+
+        });
+
+
+
+});
 app.listen(8081, function() {
     console.log('server running on http://127.0.0.1:8081');
 
