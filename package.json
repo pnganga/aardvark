@@ -17,6 +17,7 @@
     "dispatch": "^1.0.0",
     "ee-first": "^1.1.1",
     "express": "^4.13.3",
+    "jade": "^1.11.0",
     "media-typer": "^0.3.0",
     "mime-types": "^2.1.7",
     "mongoose": "^4.2.6",
