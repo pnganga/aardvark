@@ -34,20 +34,26 @@ var Movie = mongoose.model('Movie', movieSchema);
 //express settings
 app.set('views', './views');
 app.set('view engine', 'jade');
+
 //express middleware
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
 app.get('/movies', function(req, res) {
-    Movie.find(function(err, movie) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.json(movie);
-        }
+    Movie.find()
+        .select('title director star')
+        .exec(function(err, movies) {
 
-    });
+
+                if (err) return console.log(err);
+
+
+                res.render('index', {"movies": movies});
+                // res.json(movie);
+        
+
+        });
 
 
 
@@ -99,7 +105,9 @@ app.delete('/movies/:id', function(req, res) {
     movieId = req.params.id;
 
     // retrieve the movie from mongodb
-    Movie.remove({_id: movieId}, function(err) {
+    Movie.remove({
+        _id: movieId
+    }, function(err) {
         if (err) return console.log(err);
 
         res.send('movie deleted');
