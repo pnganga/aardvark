@@ -11,18 +11,18 @@
     <h1 class="text-center">Movies Listing</h1>
     <table class="table">
         <thead>
-            <th>Title</th>
-            <th>Director</th>
-            <th>Star</th>
-            <th>details</th>
+            <th class="text-center">Title</th>
+            <th class="text-center">Director</th>
+            <th class="text-center">Star</th>
+            <th class="text-center">Rating</th>
         </thead>
         <tbody>
             <!-- {% for movie in movies %} -->
-            <tr>
-                <td class="active">{{ movie.title | upcase }}</td>
-                <td class="success">{{ movie.director | upcase}}</td>
-                <td class="info">{{ movie.star | upcase}}</td>
-                <td class="info">{{ movie.details | upcase}}</td>
+            <tr class="text-center">
+                <td class=" text-center active">{{ movie.title | upcase }}</td>
+                <td class=" text-center success">{{ movie.director | upcase}}</td>
+                <td class=" text-center info">{{ movie.star | upcase}}</td>
+                <td class=" text-center info">{{ movie.rating | upcase}}</td>
             </tr>
             <!-- {% endfor %} -->
         </tbody>

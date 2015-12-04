@@ -45,7 +45,7 @@ app.use(bodyParser.urlencoded({
 
 app.get('/movies', function(req, res) {
     Movie.find()
-        .select('title director star')
+        .select('title director rating')
         .exec(function(err, movies) {
 
 
@@ -61,11 +61,13 @@ app.get('/movies', function(req, res) {
         });
 });
 
+app.get('/movies/new', function(req, res) {
+    res.render('new');
+});
 
 
 
-
-app.post('/movies/new', function(req, res) {
+app.post('/movies', function(req, res) {
     console.log(req.body);
     formData = req.body;
     var movie = new Movie(formData);
@@ -89,8 +91,8 @@ app.get('/movies/:id', function(req, res) {
 
         // res.json(movie);
         res.render('moviedetail', {
-                "movies": movies
-            });
+            "movies": movies
+        });
 
 
     });
