@@ -27,7 +27,7 @@ var movieSchema = mongoose.Schema({
         default: 0,
         max: 10
     },
-    details: String
+    details: String,
 });
 
 // compile model
@@ -51,18 +51,19 @@ app.get('/movies', function(req, res) {
 
             if (err) return console.log(err);
 
-
+            // res.json(movies);
             res.render('index', {
                 "movies": movies
             });
-            // res.json(movie);
+
 
 
         });
-
-
-
 });
+
+
+
+
 
 app.post('/movies/new', function(req, res) {
     console.log(req.body);
@@ -83,22 +84,28 @@ app.get('/movies/:id', function(req, res) {
     movieId = req.params.id;
 
     // retrieve the movie from mongodb
-    Movie.findById(movieId, function(err, movie) {
+    Movie.findById(movieId, function(err, movies) {
         if (err) return console.log(err);
 
-        res.json(movie);
+        // res.json(movie);
+        res.render('moviedetail', {
+                "movies": movies
+            });
+
 
     });
 });
 app.put('/movies/:id', function(req, res) {
     movieId = req.params.id;
     userRating = req.body.rating;
+    movieDetails = req.body.details;
 
     // retrieve the movie from mongodb
     Movie.findById(movieId, function(err, movie) {
         if (err) return console.log(err);
 
         movie.rating = userRating;
+        movie.details = movieDetails;
         movie.save(function(err, movie) {
             if (err) return console.log(err);
             res.json(movie);
@@ -119,41 +126,8 @@ app.delete('/movies/:id', function(req, res) {
 
     });
 });
-app.put('/movies/:id', function(req, res) {
-    movieId = req.params.id;
-    movieDetails = req.body.details;
-
-    // retrieve the movie from mongodb
-    Movie.findById(movieId, function(err, movie) {
-        if (err) return console.log(err);
-
-        movie.rating = movieDetails;
-        movie.save(function(err, movie) {
-            if (err) return console.log(err);
-            res.json(movie);
-        })
-    })
-});
-app.get('/movies', function(req, res) {
-    Movie.find()
-        .select('title director star')
-        .exec(function(err, movies) {
 
 
-            if (err) return console.log(err);
-
-
-            res.render('index', {
-                "movies": movies
-            });
-            // res.json(movie);
-
-
-        });
-
-
-
-});
 app.listen(8081, function() {
     console.log('server running on http://127.0.0.1:8081');
 
