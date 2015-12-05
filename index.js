@@ -64,7 +64,20 @@ app.get('/movies', function(req, res) {
 app.get('/movies/new', function(req, res) {
     res.render('new');
 });
+app.get('/movies/:id/edit', function(req, res) {
+   
+            movieId = req.params.id;
 
+    // retrieve the movie from mongodb
+    Movie.findById(movieId, function(err, movie) {
+        if (err) return console.log(err);
+
+        // res.json(movie);
+        res.render('edit', {"movie": movie});
+        
+        });
+
+});
 
 
 app.post('/movies', function(req, res) {
@@ -86,12 +99,12 @@ app.get('/movies/:id', function(req, res) {
     movieId = req.params.id;
 
     // retrieve the movie from mongodb
-    Movie.findById(movieId, function(err, movies) {
+    Movie.findById(movieId, function(err, movie) {
         if (err) return console.log(err);
 
         // res.json(movie);
         res.render('moviedetail', {
-            "movies": movies
+            "movie": movie
         });
 
 
@@ -110,7 +123,8 @@ app.put('/movies/:id', function(req, res) {
         movie.details = movieDetails;
         movie.save(function(err, movie) {
             if (err) return console.log(err);
-            res.json(movie);
+            console.log(movie);
+            res.redirect("/movies");
         });
 
     });
