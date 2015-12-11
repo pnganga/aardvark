@@ -1,13 +1,40 @@
-var mongoose = require('mongoose');
 // express
 var express = require('express');
 var cons = require('consolidate');
 var app = express();
 
-//include express middlewares
+
+var cookieParser = require('cookie-parser');
+var expressSession = require('express-session');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+
+// express middleware
 var bodyParser = require('body-parser');
 
+// include mongoose
+var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/aarrdvark');
+
+// express settings
+app.engine('html', cons.liquid);
+app.set('views', './views');
+app.set('view engine', 'html');
+
+// express middleware
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(cookieParser());
+app.use(expressSession({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: false
+
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -15,134 +42,18 @@ app.use(function(req, res, next) {
     next();
 });
 
-// define schema
+// Include routes
+var moviesRoutes = require('./routes/movies');
+app.use(moviesRoutes);
+var usersRoutes = require('./routes/users');
+app.use(usersRoutes);
 
+// passport config
+var User = require('./models/user');
 
-var movieSchema = mongoose.Schema({
-    title: String,
-    director: String,
-    star: String,
-    rating: {
-        type: Number,
-        default: 0,
-        max: 10
-    },
-    details: String,
-});
-
-// compile model
-
-var Movie = mongoose.model('Movie', movieSchema);
-//express settings
-app.engine('html', cons.liquid);
-app.set('views', './views');
-app.set('view engine', 'html');
-
-//express middleware
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-
-app.get('/movies', function(req, res) {
-    Movie.find()
-        .select('title director rating')
-        .exec(function(err, movies) {
-
-
-            if (err) return console.log(err);
-
-            // res.json(movies);
-            res.render('index', {
-                "movies": movies
-            });
-
-
-
-        });
-});
-
-app.get('/movies/new', function(req, res) {
-    res.render('new');
-});
-app.get('/movies/:id/edit', function(req, res) {
-   
-            movieId = req.params.id;
-
-    // retrieve the movie from mongodb
-    Movie.findById(movieId, function(err, movie) {
-        if (err) return console.log(err);
-
-        // res.json(movie);
-        res.render('edit', {"movie": movie});
-        
-        });
-
-});
-
-
-app.post('/movies', function(req, res) {
-    console.log(req.body);
-    formData = req.body;
-    var movie = new Movie(formData);
-    movie.save(function(err, movie) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('successfully saved the movie');
-            res.redirect('/movies');
-        }
-
-    });
-});
-
-app.get('/movies/:id', function(req, res) {
-    movieId = req.params.id;
-
-    // retrieve the movie from mongodb
-    Movie.findById(movieId, function(err, movie) {
-        if (err) return console.log(err);
-
-        // res.json(movie);
-        res.render('moviedetail', {
-            "movie": movie
-        });
-
-
-    });
-});
-app.put('/movies/:id', function(req, res) {
-    movieId = req.params.id;
-    userRating = req.body.rating;
-    movieDetails = req.body.details;
-
-    // retrieve the movie from mongodb
-    Movie.findById(movieId, function(err, movie) {
-        if (err) return console.log(err);
-
-        movie.rating = userRating;
-        movie.details = movieDetails;
-        movie.save(function(err, movie) {
-            if (err) return console.log(err);
-            console.log(movie);
-            res.redirect("/movies");
-        });
-
-    });
-});
-app.delete('/movies/:id', function(req, res) {
-    movieId = req.params.id;
-
-    // retrieve the movie from mongodb
-    Movie.remove({
-        _id: movieId
-    }, function(err) {
-        if (err) return console.log(err);
-
-        res.send('movie deleted');
-
-    });
-});
-
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.listen(8081, function() {
     console.log('server running on http://127.0.0.1:8081');
