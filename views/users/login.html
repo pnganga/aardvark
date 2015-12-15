@@ -8,14 +8,12 @@
 <body>
 {% include 'navbar' %}
 	<p>{{error}}</p>
-    <form action="/sign-up" method="post">
+    <form action="/login" method="post">
         <label for="">Username</label>
         <input type="text" name="username" value="{{user.username}}" placeholder="Username">
-        <label for="">Email</label>
-        <input type="email" name="email" value="{{user.email}}" placeholder="Email">
         <label for="">Password</label>
         <input type="password" name="password" value="{{user.password}}" placeholder="Password">
-        <button type="submit"></button>
+        <button type="submit">Login</button>
     </form>
 </body>
 

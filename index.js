@@ -3,7 +3,7 @@ var express = require('express');
 var cons = require('consolidate');
 var app = express();
 
-
+var path = require('path');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var passport = require('passport');
@@ -19,7 +19,7 @@ mongoose.connect('mongodb://localhost/aarrdvark');
 
 // express settings
 app.engine('html', cons.liquid);
-app.set('views', './views');
+app.set('views',  path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
 // express middleware
@@ -47,6 +47,8 @@ var moviesRoutes = require('./routes/movies');
 app.use(moviesRoutes);
 var usersRoutes = require('./routes/users');
 app.use(usersRoutes);
+var indexRoute = require('./routes/index');
+app.use(indexRoute);
 
 // passport config
 var User = require('./models/user');

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	{% include 'navbar' %}
+	<br>
+	{% if user %}
+	<h1>Welcome Back {{user.username}}</h1>
+	{% else %}
+	<a href="/login">Login</a><p>Are You A Member? If not then</p>
+	<a href="/sign-up">Sign up</a>
+
+</body>
+</html>
