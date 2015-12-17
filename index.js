@@ -15,12 +15,21 @@ var bodyParser = require('body-parser');
 
 // include mongoose
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/aarrdvark');
+var uristring =
+    process.env.MONGOLAB_URI ||
+    process.env.MONGOHQ_URL ||
+    'mongodb://localhost/aarrdvark';
+mongoose.connect(uristring, function(err, res) {
+    if (err) {
+        console.log('Error connecting to:', uristring);
+      
+    }
+});
 
 // express settings
 app.set('port', (process.env.PORT || 8081));
 app.engine('html', cons.liquid);
-app.set('views',  path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
 
 // express middleware
