@@ -18,6 +18,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/aarrdvark');
 
 // express settings
+app.set('port', (process.env.PORT || 8081));
 app.engine('html', cons.liquid);
 app.set('views',  path.join(__dirname, 'views'));
 app.set('view engine', 'html');
@@ -57,7 +58,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.listen(8081, function() {
-    console.log('server running on http://127.0.0.1:8081');
+app.listen(app.get('port'), function() {
+    console.log('server running on http://127.0.0.1:%s', app.get('port'));
 
 });
